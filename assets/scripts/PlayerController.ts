@@ -34,16 +34,21 @@ export class PlayerController extends Component {
     }
 
     private onKeyDown(event: any): void {
+        // Обрабатываем сразу нажатие и кнопок WASD, и стрелок для управления
         switch (event.keyCode) {
+            case KeyCode.ARROW_UP:
             case KeyCode.KEY_W:
                 this.currentDirection.y = 1;
                 break;
+            case KeyCode.ARROW_DOWN:
             case KeyCode.KEY_S:
                 this.currentDirection.y = -1;
                 break;
+            case KeyCode.ARROW_LEFT:
             case KeyCode.KEY_A:
                 this.currentDirection.x = -1;
                 break;
+            case KeyCode.ARROW_RIGHT:
             case KeyCode.KEY_D:
                 this.currentDirection.x = 1;
                 break;
@@ -51,11 +56,16 @@ export class PlayerController extends Component {
     }
 
     private onKeyUp(event: any): void {
+        // Используем группировку случаев case. Данное решение выбрано специально :D
         switch (event.keyCode) {
+            case KeyCode.ARROW_UP:
+            case KeyCode.ARROW_DOWN:
             case KeyCode.KEY_W:
             case KeyCode.KEY_S:
                 this.currentDirection.y = 0;
                 break;
+            case KeyCode.ARROW_LEFT:
+            case KeyCode.ARROW_RIGHT:
             case KeyCode.KEY_A:
             case KeyCode.KEY_D:
                 this.currentDirection.x = 0;
