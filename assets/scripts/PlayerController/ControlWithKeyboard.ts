@@ -10,28 +10,31 @@ export class ControlWithKeyboard extends Component {
 
     private controlType: ControlTypes;
 
+    // Основные кнопки для перемещения игрока
     private upKey: KeyCode;
     private downKey: KeyCode;
     private leftKey: KeyCode;
     private rightKey: KeyCode;
 
-    private currentDirection: Vec2 = new Vec2(0, 0); // Текущее направление вектора
+    private currentDirection: Vec2 = new Vec2(); // Текущее направление вектора
     private keysPressed: Set<KeyCode> = new Set(); // Хранит нажатые клавиши
 
-    protected onLoad(): void {
+    protected start(): void {
         this.playerController = this.getComponent(PlayerController);
         if (!this.playerController) {
             console.error("PlayerController not found!");
         }
         this.controlType = this.playerController.getControlType();
+        this.currentDirection = this.playerController.getCurrentDirection();
 
+        // В зависимости от типа управления выбираем соответсвующие кнопки
         this.upKey = this.controlType == ControlTypes.WASD_KEYS_CONTROL ? KeyCode.KEY_W : KeyCode.ARROW_UP;
         this.downKey = this.controlType == ControlTypes.WASD_KEYS_CONTROL ? KeyCode.KEY_S : KeyCode.ARROW_DOWN;
         this.leftKey = this.controlType == ControlTypes.WASD_KEYS_CONTROL ? KeyCode.KEY_A : KeyCode.ARROW_LEFT;
         this.rightKey = this.controlType == ControlTypes.WASD_KEYS_CONTROL ? KeyCode.KEY_D : KeyCode.ARROW_RIGHT;
     }
 
-    protected start(): void {
+    protected onLoad(): void {
         // Обработка ввода с клавиатуры
         input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
         input.on(Input.EventType.KEY_UP, this.onKeyUp, this);

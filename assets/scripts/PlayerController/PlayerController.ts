@@ -1,12 +1,28 @@
 import { _decorator, Component, Enum, RigidBody2D, Vec2 } from 'cc';
 const { ccclass, property } = _decorator;
 
-// Значения возможных типов управления игроком
-export enum ControlTypes {
-    WASD_KEYS_CONTROL,
-    ARROW_KEYS_CONTROL,
-    TOUCH_KEYS_CONTROL
-}
+/** ---
+ * @en
+ * -
+ * Possible types of player controls:  
+ * - `WASD_KEYS_CONTROL` - control using the keys: W , A , S , D .  
+ * - `ARROW_KEYS_CONTROL` - control using the keys: ↑ , ← , ↓ , → .  
+ * - `TOUCH_KEYS_CONTROL` - touch control ___(mobile devices only)___.  
+ *
+ * Default value - `WASD_KEYS_CONTROL`.  
+ *
+ * ---
+ * @ru
+ * -
+ * Возможные типы управлнения игроком:  
+ * - `WASD_KEYS_CONTROL` - управление при помощи клавиш: W , A , S , D .  
+ * - `ARROW_KEYS_CONTROL` - управление при помощи клавиш: ↑ , ← , ↓ , → .  
+ * - `TOUCH_KEYS_CONTROL` - сенсорное управление ___(только для мобильных устройств)___.  
+ *
+ * Значение по умолчанию - `WASD_KEYS_CONTROL`.  
+ */
+
+export enum ControlTypes { WASD_KEYS_CONTROL, ARROW_KEYS_CONTROL, TOUCH_KEYS_CONTROL };
 
 @ccclass('PlayerController')
 export class PlayerController extends Component {
@@ -21,8 +37,8 @@ export class PlayerController extends Component {
     // По умолчанию, управление игроком осуществляется при помощью кнопок WASD
     private controlType: ControlTypes = ControlTypes.WASD_KEYS_CONTROL;
 
-    private currentDirection: Vec2 = new Vec2(0, 0); // Направление вектора движения игрока
-    private lastDirection: Vec2 = new Vec2(0, 0); // Последнее использованное направление вектора
+    private currentDirection: Vec2 = new Vec2(); // Направление вектора движения игрока
+    private lastDirection: Vec2 = new Vec2(); // Последнее использованное направление вектора
 
     protected start(): void {
         this.rigidBody = this.getComponent(RigidBody2D);
@@ -44,8 +60,6 @@ export class PlayerController extends Component {
         const velocity = this.currentDirection.normalize().multiplyScalar(this.moveSpeed * deltaTime);
         this.rigidBody.linearVelocity = velocity;
     }
-
-// Геттеры и сеттеры для полей
 
     public getMoveSpeed(): number {
         return this.moveSpeed;
